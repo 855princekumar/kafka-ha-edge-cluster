@@ -111,6 +111,14 @@ Hot-swap friendly.
 
 ---
 
+# Real-World Result Snapshot
+
+Below is a live test where frames were captured on a Windows machine and streamed over the LAN into the Kafka cluster running on Raspberry Pi3B+ nodes.
+
+<img width="1928" height="2104" alt="Working-in-action-live" src="https://github.com/user-attachments/assets/f60fcf35-c784-4d5b-97fe-dab347f64143" />
+
+---
+
 # Docker Images
 
 Pre-built ARM-optimized images are publicly available on Docker Hub.
@@ -369,6 +377,144 @@ Everything else remains identical.
 
 ---
 
+# Environment Configuration (`.env` Required)
+
+⚠️ **Important:**
+This project **requires a `.env` file in the same folder as `docker-compose.yml`.**
+
+The `.env` file is **not included in this repository** because environment files are ignored by Git for safety reasons.
+
+If you skip this step, containers will start incorrectly and Kafka / ZooKeeper will behave unpredictably.
+
+---
+
+## How to Create `.env`
+
+In the same folder as `docker-compose.yml`, create a file named:
+
+```
+.env
+```
+
+Then paste the configuration based on your node type.
+
+---
+
+## Single Node Mode (`.env`)
+
+Use this when running Kafka + ZooKeeper on **one machine only**.
+
+```
+NODE_ID=1
+HOST_IP=127.0.0.1
+
+KAFKA_ZOOKEEPER_CONNECT=127.0.0.1:2181
+
+KAFKA_NUM_PARTITIONS=1
+KAFKA_DEFAULT_REPLICATION_FACTOR=1
+KAFKA_MIN_INSYNC_REPLICAS=1
+KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
+KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
+```
+
+---
+
+## High Availability – Node 1 (`.env`)
+
+```
+NODE_ID=1
+HOST_IP=192.168.126
+
+KAFKA_ZOOKEEPER_CONNECT=192.168.126:2181,192.168.127:2181,192.168.128:2181
+
+KAFKA_NUM_PARTITIONS=1
+KAFKA_DEFAULT_REPLICATION_FACTOR=3
+KAFKA_MIN_INSYNC_REPLICAS=2
+KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=3
+KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=3
+KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=2
+```
+
+---
+
+## High Availability – Node 2 (`.env`)
+
+```
+NODE_ID=2
+HOST_IP=192.168.127
+
+KAFKA_ZOOKEEPER_CONNECT=192.168.126:2181,192.168.127:2181,192.168.128:2181
+
+KAFKA_NUM_PARTITIONS=1
+KAFKA_DEFAULT_REPLICATION_FACTOR=3
+KAFKA_MIN_INSYNC_REPLICAS=2
+KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=3
+KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=3
+KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=2
+```
+
+---
+
+## High Availability – Node 3 (`.env`)
+
+```
+NODE_ID=3
+HOST_IP=192.168.128
+
+KAFKA_ZOOKEEPER_CONNECT=192.168.126:2181,192.168.127:2181,192.168.128:2181
+
+KAFKA_NUM_PARTITIONS=1
+KAFKA_DEFAULT_REPLICATION_FACTOR=3
+KAFKA_MIN_INSYNC_REPLICAS=2
+KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=3
+KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=3
+KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=2
+```
+
+---
+
+## Folder Placement (Very Important)
+
+Your directory **must** look like this:
+
+```
+node-1/
+ ├─ docker-compose.yml
+ ├─ .env
+ └─ data/
+```
+
+If `.env` is missing or in another folder, Docker Compose will not load variables and the cluster will fail silently.
+
+---
+
+## Why `.env` Is Not in the Repo
+
+`.env` files are excluded intentionally to avoid leaking:
+
+* passwords
+* tokens
+* secrets
+* private IPs
+
+This is industry best practice.
+
+---
+
+## Quick Sanity Check
+
+After creating `.env`, run:
+
+```
+docker compose config
+```
+
+If variables expand correctly — you’re good.
+If you see `${NODE_ID}` literally — your `.env` is not being read.
+
+---
+
 ## 4. Start ZooKeeper First - Always
 
 Run on **all nodes:**
@@ -572,14 +718,6 @@ If frames appear in the consumer window, the pipeline is verified.
 
 ---
 
-### Real-World Result Snapshot
-
-Below is a live test where frames were captured on a Windows machine and streamed over the LAN into the Kafka cluster running on Raspberry Pi nodes.
-
-<img width="1928" height="2104" alt="Working-in-action-live" src="https://github.com/user-attachments/assets/f60fcf35-c784-4d5b-97fe-dab347f64143" />
-
----
-
 ### Practical Outcome
 
 This confirms the cluster is capable of:
@@ -650,6 +788,7 @@ it will fly on your server.
 And if this repo saves you even one weekend of debugging ZooKeeper…
 
 **Then it has already done its job. ⭐**
+
 
 
 
