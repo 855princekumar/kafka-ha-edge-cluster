@@ -1,6 +1,14 @@
+<img width="1536" height="736" alt="Banner-2" src="https://github.com/user-attachments/assets/1bc1e3bc-91f4-4dbd-9d16-a299128cc939" />
+
+---
 # Kafka ARM Docker Cluster
 
-**Single Node + High Availability 3-Node Deployment for Raspberry Pi & ARM Systems**
+<p>
+<img src="https://img.shields.io/badge/Architecture-ARM-blue?style=for-the-badge" />
+<img src="https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
+<img src="https://img.shields.io/badge/Cluster-HA%203%20Node-green?style=for-the-badge" />
+<img src="https://img.shields.io/badge/Mode-Single%20%7C%20Distributed-purple?style=for-the-badge" />
+</p>
 
 ---
 
@@ -112,13 +120,112 @@ ZooKeeper Image
 You can either:
 
 * Pull directly and run instantly
-* Build locally using provided Dockerfiles
+* Build locally using the provided Dockerfiles
 * Fork and customize JVM, configs, or health checks
 
 If you just want to test quickly, **pulling is the fastest path.**
 If you want control, build locally.
 If you want pain, compile Kafka natively.
 (We don’t recommend the third option unless you enjoy existential debugging.)
+
+# Image Compatibility & Supported Systems
+
+This project provides **pre-built Docker images optimized for ARM devices**, originally built and tested on **Raspberry Pi 3B+ (ARMv7 / 32-bit Linux)**.
+
+Understanding architecture compatibility will help you avoid pull/run errors.
+
+---
+
+## Architecture of Pre-Built Images
+
+The public images on Docker Hub are built for:
+
+```
+linux/arm/v7
+```
+
+This means they are **native for 32-bit ARM systems** and run without emulation.
+
+---
+
+## Systems That Work Natively
+
+These systems can pull and run the images directly without modification:
+
+| Device / Platform              | Result          |
+| ------------------------------ | --------------- |
+| Raspberry Pi 2 / 3 / 3B / 3B+  | Fully Supported |
+| Raspberry Pi 4 / 5 (32-bit OS) | Fully Supported |
+| Orange Pi (ARMv7 variants)     | Supported       |
+| ARMv7 Single Board Computers   | Supported       |
+| Low-Power Edge ARM Devices     | Supported       |
+
+---
+
+## Systems That *May* Work (With Conditions)
+
+| Device                         | Condition                                          |
+| ------------------------------ | -------------------------------------------------- |
+| Raspberry Pi 4 / 5 (64-bit OS) | Needs 32-bit compatibility layer                   |
+| ARM64 Servers                  | Use `--platform linux/arm/v7` or rebuild image     |
+| Apple Silicon (M1/M2/M3)       | Emulation required, not recommended for production |
+
+---
+
+## Systems Not Supported Directly
+
+| Device / Platform           | Reason                    |
+| --------------------------- | ------------------------- |
+| Intel / AMD PCs             | x86 architecture mismatch |
+| Cloud x86 VMs               | Different CPU ISA         |
+| Windows Native Docker (x86) | Requires rebuild          |
+| Standard Ubuntu Desktop PCs | Requires rebuild          |
+
+---
+
+## How to Check Image Architecture
+
+Users can inspect the image architecture with:
+
+```
+docker buildx imagetools inspect devprincekumar/kafka-arm:3.7.0
+```
+
+Expected output snippet:
+
+```
+Architecture: arm
+Variant: v7
+```
+
+---
+
+## Want x86 or ARM64 Support?
+
+You can build a **multi-architecture image** locally using Docker Buildx:
+
+```
+docker buildx build \
+  --platform linux/amd64,linux/arm64,linux/arm/v7 \
+  -t yourrepo/kafka-arm:latest \
+  --push .
+```
+
+This allows one tag to support **PCs, Servers, and ARM devices simultaneously.**
+
+---
+
+## Practical Summary
+
+| Use Case                  | Recommendation      |
+| ------------------------- | ------------------- |
+| Raspberry Pi Cluster      | Use Pre-Built Image |
+| Edge / IoT ARM Devices    | Use Pre-Built Image |
+| Personal Laptop / Desktop | Rebuild Multi-Arch  |
+| Cloud Server Deployment   | Rebuild Multi-Arch  |
+
+If it runs on a Pi 3B+, it will fly on proper ARM servers -
+but for x86 systems, rebuilding is the correct path.
 
 ---
 
@@ -444,3 +551,4 @@ it will fly on your server.
 And if this repo saves you even one weekend of debugging ZooKeeper…
 
 **Then it has already done its job. ⭐**
+
