@@ -193,6 +193,66 @@ These systems can pull and run the images directly without modification:
 | Windows Native Docker (x86) | Requires rebuild          |
 | Standard Ubuntu Desktop PCs | Requires rebuild          |
 
+## Resource Guidance & Hardware Benchmarks
+
+This setup is optimized for low-power ARM boards but can scale to higher-end hardware.
+Kafka is JVM-based, so RAM and disk speed significantly affect stability.
+
+### Minimum Recommended Resources
+
+| Deployment Mode   | RAM (Per Node)    | CPU      | Storage       | Notes                      |
+| ----------------- | ----------------- | -------- | ------------- | -------------------------- |
+| Single Node Test  | 1 GB              | 2 Core   | SD Card       | Works on Pi 3B+ with swap  |
+| HA 3-Node Cluster | 1–2 GB            | 2–4 Core | SSD Preferred | Stable for light workloads |
+| Production Edge   | 4 GB+             | 4 Core   | SSD/NVMe      | Recommended                |
+| Pi Zero / 512MB   | Not Recommended   |   -----  |   ------      | JVM instability likely     |
+
+---
+
+### Kafka JVM Heap Guidance
+
+| RAM Available | Suggested Heap      |
+| ------------- | ------------------- |
+| 1 GB          | `-Xms256m -Xmx512m` |
+| 2 GB          | `-Xms512m -Xmx1g`   |
+| 4 GB+         | `-Xms1g -Xmx2g`     |
+
+---
+
+### Swap Guidance
+
+| Device      | Swap Advice                |
+| ----------- | -------------------------- |
+| Pi 3B+      | 512MB–1GB swap recommended |
+| Pi 4/5      | Optional                   |
+| SSD Systems | Avoid excessive swap       |
+
+---
+
+### Disk I/O Impact
+
+| Storage Type | Performance               |
+| ------------ | ------------------------- |
+| SD Card      | Slow / acceptable for POC |
+| USB SSD      | Good                      |
+| NVMe         | Excellent                 |
+
+---
+
+### Observed Benchmarks (POC Level)
+
+| Hardware       | Mode        | Stability           |
+| -------------- | ----------- | ------------------- |
+| Pi 3B+ 1GB     | Single Node | Stable              |
+| Pi 3B+ 1GB     | HA 3-Node   | Stable (Light Load) |
+| Pi 4 4GB       | HA          | Excellent           |
+| x86 Laptop 8GB | HA          | Production-Ready    |
+
+---
+
+**Key Insight:**
+If it runs on Pi 3B+, it will run comfortably on modern hardware.
+
 ---
 
 ## How to Check Image Architecture
@@ -788,6 +848,7 @@ it will fly on your server.
 And if this repo saves you even one weekend of debugging ZooKeeper…
 
 **Then it has already done its job. ⭐**
+
 
 
 
