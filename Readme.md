@@ -528,7 +528,7 @@ Both scripts:
 ### Producer Configuration
 
 ```
-BROKERS = ["10.1.40.26:9092","10.1.40.27:9092","10.1.40.28:9092"]
+BROKERS = ["192.168.1.26:9092","192.168.1.27:9092","192.168.1.28:9092"]
 TOPIC = "D1Cam"
 ```
 
@@ -537,7 +537,7 @@ TOPIC = "D1Cam"
 ### Consumer Configuration
 
 ```
-BROKERS = ["10.1.40.26:9092","10.1.40.27:9092","10.1.40.28:9092"]
+BROKERS = ["192.168.1.26:9092","192.168.1.27:9092","192.168.1.28:9092"]
 TOPIC = "D1Cam"
 ```
 
@@ -650,6 +650,7 @@ it will fly on your server.
 And if this repo saves you even one weekend of debugging ZooKeeper…
 
 **Then it has already done its job. ⭐**
+
 
 
 
