@@ -4,10 +4,14 @@
 # Kafka ARM Docker Cluster
 
 <p>
-<img src="https://img.shields.io/badge/Architecture-ARM-blue?style=for-the-badge" />
-<img src="https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
-<img src="https://img.shields.io/badge/Cluster-HA%203%20Node-green?style=for-the-badge" />
-<img src="https://img.shields.io/badge/Mode-Single%20%7C%20Distributed-purple?style=for-the-badge" />
+<img src="https://img.shields.io/badge/Architecture-ARMv7%20%7C%20ARM64-0091bd?style=flat-square&logo=arm" />
+<img src="https://img.shields.io/badge/Container-Docker-2496ED?style=flat-square&logo=docker&logoColor=white" />
+<img src="https://img.shields.io/badge/Cluster-High%20Availability-2ea44f?style=flat-square" />
+<img src="https://img.shields.io/badge/Mode-Single%20%7C%203%20Node-6e40c9?style=flat-square" />
+<img src="https://img.shields.io/badge/Streaming-Kafka-231F20?style=flat-square&logo=apachekafka" />
+<img src="https://img.shields.io/badge/Deployment-Edge%20Ready-ff6f00?style=flat-square" />
+<img src="https://img.shields.io/badge/OS-Linux-fcc624?style=flat-square&logo=linux&logoColor=black" />
+<img src="https://img.shields.io/badge/Status-Actively%20Maintained-success?style=flat-square" />
 </p>
 
 ---
@@ -551,4 +555,5 @@ it will fly on your server.
 And if this repo saves you even one weekend of debugging ZooKeeper…
 
 **Then it has already done its job. ⭐**
+
 
