@@ -496,6 +496,101 @@ Ports blocked? k3s or firewall.
 Nothing works? Breathe. Restart clean.
 
 ---
+## Live Streaming Test (Producer → Kafka → Consumer)
+
+This repository also includes **ready-to-run testing scripts** that demonstrate real-time video streaming through the Kafka cluster.
+
+Instead of sending simple text messages, this test proves:
+
+* Frame ingestion
+* Topic auto-creation
+* Distributed replication
+* End-to-end delivery
+* Persistence across restarts
+
+### Test Setup
+
+**Producer:**
+Uses OpenCV to capture frames from a USB webcam or RTSP stream and pushes them to Kafka.
+
+**Consumer:**
+Reads frames from the Kafka topic and displays them using OpenCV.
+
+Both scripts:
+
+* Auto-create a virtual environment
+* Install dependencies automatically
+* Run isolated from system Python
+* Require zero manual setup
+
+---
+
+### Producer Configuration
+
+```
+BROKERS = ["10.1.40.26:9092","10.1.40.27:9092","10.1.40.28:9092"]
+TOPIC = "D1Cam"
+```
+
+---
+
+### Consumer Configuration
+
+```
+BROKERS = ["10.1.40.26:9092","10.1.40.27:9092","10.1.40.28:9092"]
+TOPIC = "D1Cam"
+```
+
+---
+
+### Execution
+
+Producer:
+
+```
+python producer.py
+```
+
+Consumer:
+
+```
+python consumer.py
+```
+
+If frames appear in the consumer window, the pipeline is verified.
+
+---
+
+### What This Test Validates
+
+* Auto topic creation
+* Broker discovery
+* Frame serialization/deserialization
+* ISR synchronization
+* Disk persistence
+* Cluster failover stability
+
+---
+
+### Real-World Result Snapshot
+
+Below is a live test where frames were captured on a Windows machine and streamed over the LAN into the Kafka cluster running on Raspberry Pi nodes.
+
+<img width="1928" height="2104" alt="Working-in-action-live" src="https://github.com/user-attachments/assets/f60fcf35-c784-4d5b-97fe-dab347f64143" />
+
+---
+
+### Practical Outcome
+
+This confirms the cluster is capable of:
+
+* Video ingestion
+* High-throughput streaming
+* Edge AI pipelines
+* IoT telemetry aggregation
+* Stress testing under real load
+
+---
 
 # Scalability
 
@@ -555,5 +650,6 @@ it will fly on your server.
 And if this repo saves you even one weekend of debugging ZooKeeper…
 
 **Then it has already done its job. ⭐**
+
 
 
