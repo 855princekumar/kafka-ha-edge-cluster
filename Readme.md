@@ -115,7 +115,12 @@ Hot-swap friendly.
 
 Below is a live test where frames were captured on a Windows machine and streamed over the LAN into the Kafka cluster running on Raspberry Pi3B+ nodes.
 
+### Single node Run 
 <img width="1928" height="2104" alt="Working-in-action-live" src="https://github.com/user-attachments/assets/f60fcf35-c784-4d5b-97fe-dab347f64143" />
+
+
+### Multi-node HA-cluster Run 
+<img width="1916" height="2036" alt="Working-in-action-live" src="https://github.com/user-attachments/assets/38c3e11e-5827-48c9-92b6-22f51c592764" />
 
 ---
 
@@ -848,6 +853,7 @@ it will fly on your server.
 And if this repo saves you even one weekend of debugging ZooKeeper…
 
 **Then it has already done its job. ⭐**
+
 
 
 
