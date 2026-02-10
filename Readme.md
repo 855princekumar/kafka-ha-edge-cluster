@@ -570,8 +570,8 @@ After creating `.env`, run:
 docker compose config
 ```
 
-If variables expand correctly — you’re good.
-If you see `${NODE_ID}` literally — your `.env` is not being read.
+If variables expand correctly - you’re good.
+If you see `${NODE_ID}` literally - your `.env` is not being read.
 
 ---
 
@@ -848,6 +848,7 @@ it will fly on your server.
 And if this repo saves you even one weekend of debugging ZooKeeper…
 
 **Then it has already done its job. ⭐**
+
 
 
 
